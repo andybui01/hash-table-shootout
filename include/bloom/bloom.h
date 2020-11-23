@@ -71,6 +71,8 @@ namespace bloom {
             size = calculateSize(elements, fp_rate);
             num_hash = calculateNumHash(elements, size);
             bitmap = (uint32_t *) calloc(size / 32, 4);
+
+            // std::cout << size << " " << num_hash << std::endl;
         }
 
         // Constructor method with specified false-positive rate
@@ -86,7 +88,8 @@ namespace bloom {
             const char* cstr = str.data();
 
             for (int i = 0; i < num_hash; ++i) {
-                uint64_t bit_index = XXH3_64bits(cstr, len) & (size - 1);
+                // uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) % size;
+                uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) & (size - 1);
                 bitmap_set(bit_index);
             }
         }
@@ -97,7 +100,8 @@ namespace bloom {
             const char* cstr = str.data();
 
             for (int i = 0; i < num_hash; ++i) {
-                uint64_t bit_index = XXH3_64bits(cstr, len) & (size - 1);
+                // uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) % size;
+                uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) & (size - 1);
                 if (!(bitmap_check(bit_index)))
                     return 0;
             }
