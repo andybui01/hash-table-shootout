@@ -8,7 +8,7 @@ set key autotitle columnhead noenhanced
 set key left top
 
 # title
-set title "Read times for strings (50 bytes)"
+set title "Read times for strings (15 bytes)"
 
 # axis labels
 set ylabel "Time (ms)"
@@ -40,8 +40,8 @@ set style line 5 \
 
 set rmargin 5
 
-plot "data/read_string" using 2:xtic(1) with lines ls 1, \
-    "data/read_string" using 3:xtic(1) with lines ls 2, \
-    "data/read_string" using 4:xtic(1) with lines ls 3, \
-    "data/read_string" using 5:xtic(1) with lines ls 4, \
-    "data/read_string" using 6:xtic(1) with lines ls 5
+plot "data/read_small_string" using 2:xtic(1) with lines ls 1, \
+    "data/read_small_string" using 3:xtic(1) with lines ls 2, \
+    "data/read_small_string" using 4:xtic(1) with lines ls 3, \
+    "data/read_small_string" using 5:xtic(1) with lines ls 4, \
+    "data/read_small_string" using 6:xtic(1) with lines ls 5

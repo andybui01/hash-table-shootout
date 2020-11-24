@@ -11,7 +11,7 @@ programs = [
 minkeys  = 250000
 maxkeys  = 3000000
 interval = 250000
-best_out_of = 5
+runs = 5
 
 
 if len(sys.argv) > 1:
@@ -19,15 +19,15 @@ if len(sys.argv) > 1:
 else:
     benchtypes = (
                 # 'insert_random_shuffle_range',
-                # 'read_random_shuffle_range', 
+                # 'read_random_shuffle_range',
                 # 'insert_random_full',
                 # 'read_random_full',
-                # 'read_miss_random_full', 
+                # 'read_miss_random_full',
 
-                'insert_small_string',
-                # 'read_small_string',
+                # 'insert_small_string',
+                'read_small_string',
                 # 'read_miss_small_string',
-                    
+
                 # 'insert_string',
                 # 'read_string',
                 # 'read_miss_string',
@@ -35,7 +35,7 @@ else:
 
 # outfile.write("benchtype nkeys table mem time errors\n")
 for benchtype in benchtypes:
-    outfile = open("data/"+benchtype+"_mem", 'w')
+    outfile = open("data/"+benchtype, 'w')
 
 
 
@@ -45,31 +45,40 @@ for benchtype in benchtypes:
     outfile.write("\n")
 
     for nkeys in range(minkeys, maxkeys + 1, interval):
-        string = str(nkeys)
+
+        timing = []
+        mem = []
+
         for program in programs:
-            
-            fastest_attempt = 1000000
-            fastest_attempt_data = ''
+
+            timing_avg = 0
             memory_avg = 0
 
-            for attempt in range(best_out_of):
+            for attempt in range(runs):
                 try:
                     output = subprocess.check_output(['./build/' + program, str(nkeys), benchtype])
                     words = output.strip().split()
-                    
-                    runtime_seconds = float(words[0])
-                    memory_usage_bytes = int(words[1])
+
+                    runtime_ms = int(float(words[0]) * 1000)
+                    mem_usage = int(words[1])
                     false_count = int(words[2])
                 except:
                     print("Error with %s" % str(['./build/' + program, str(nkeys), benchtype]))
                     break
 
-                if runtime_seconds < fastest_attempt:
-                    fastest_attempt = runtime_seconds
+                timing_avg += runtime_ms
+                memory_avg += mem_usage
 
-            string += ",{}".format(str(memory_usage_bytes))
+            timing_avg = timing_avg / runs
+            memory_avg = memory_avg / runs
 
-        outfile.write(string + "\n")
+            timing.append(str(int(timing_avg)))
+            mem.append(str(int(memory_avg)))
+
+        output_list = timing + mem
+        string = str(nkeys) + "," + ",".join(output_list) + "\n"
+
+        outfile.write(string)
         print(string)
 
 outfile.close()
