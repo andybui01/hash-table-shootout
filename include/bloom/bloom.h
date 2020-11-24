@@ -39,16 +39,16 @@ namespace bloom {
             // https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
             // Alternate: round to nearest power of 2 and use bit-AND with size - 1
             // to get modulus
-            size--;
-            size |= size >> 1;
-            size |= size >> 2;
-            size |= size >> 4;
-            size |= size >> 8;
-            size |= size >> 16;
-            size++;
-            return size;
+            // size--;
+            // size |= size >> 1;
+            // size |= size >> 2;
+            // size |= size >> 4;
+            // size |= size >> 8;
+            // size |= size >> 16;
+            // size++;
+            // return size;
 
-            // return ROUND_UP(size, 32);
+            return ROUND_UP(size, 32);
         }
 
         int calculateNumHash(uint32_t elements, uint32_t size) {
@@ -88,8 +88,8 @@ namespace bloom {
             const char* cstr = str.data();
 
             for (int i = 0; i < num_hash; ++i) {
-                // uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) % size;
-                uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) & (size - 1);
+                uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) % size;
+                // uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) & (size - 1);
                 bitmap_set(bit_index);
             }
         }
@@ -100,8 +100,8 @@ namespace bloom {
             const char* cstr = str.data();
 
             for (int i = 0; i < num_hash; ++i) {
-                // uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) % size;
-                uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) & (size - 1);
+                uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) % size;
+                // uint64_t bit_index = XXH3_64bits_withSeed(cstr, len, i) & (size - 1);
                 if (!(bitmap_check(bit_index)))
                     return 0;
             }

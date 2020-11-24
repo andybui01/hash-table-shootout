@@ -1,4 +1,4 @@
 build
 output
 charts.html
-.vscode
+.vscode.DS_STORE

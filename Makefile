@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Iinclude -std=c++11 -O3
 
-.PHONY: all bloom
+.PHONY: all bloom graph
 
 all: \
 build/std_unordered_set \
@@ -27,3 +27,6 @@ build/google_sparse_hash_set: src/google_sparse_hash_set.cpp src/template.cpp
 
 build/tsl_robin_set: src/tsl_robin_set.cpp src/template.cpp
 	$(CXX) $(CXXFLAGS) -o build/tsl_robin_set src/tsl_robin_set.cpp
+
+graph:
+	gnuplot -p graph.plot
