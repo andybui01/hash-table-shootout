@@ -24,18 +24,18 @@ else:
                 # 'read_random_full',
                 # 'read_miss_random_full', 
 
-                # 'insert_small_string',
+                'insert_small_string',
                 # 'read_small_string',
                 # 'read_miss_small_string',
                     
-                'insert_string',
+                # 'insert_string',
                 # 'read_string',
                 # 'read_miss_string',
                 )
 
 # outfile.write("benchtype nkeys table mem time errors\n")
 for benchtype in benchtypes:
-    outfile = open("data/"+benchtype, 'w')
+    outfile = open("data/"+benchtype+"_mem", 'w')
 
 
 
@@ -50,6 +50,7 @@ for benchtype in benchtypes:
             
             fastest_attempt = 1000000
             fastest_attempt_data = ''
+            memory_avg = 0
 
             for attempt in range(best_out_of):
                 try:
@@ -66,7 +67,7 @@ for benchtype in benchtypes:
                 if runtime_seconds < fastest_attempt:
                     fastest_attempt = runtime_seconds
 
-            string += ",{}".format(str(int(fastest_attempt*1000)))
+            string += ",{}".format(str(memory_usage_bytes))
 
         outfile.write(string + "\n")
         print(string)
