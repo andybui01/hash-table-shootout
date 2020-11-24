@@ -25,11 +25,11 @@ else:
                 # 'read_miss_random_full',
 
                 # 'insert_small_string',
-                'read_small_string',
+                # 'read_small_string',
                 # 'read_miss_small_string',
 
                 # 'insert_string',
-                # 'read_string',
+                'read_string',
                 # 'read_miss_string',
                 )
 
